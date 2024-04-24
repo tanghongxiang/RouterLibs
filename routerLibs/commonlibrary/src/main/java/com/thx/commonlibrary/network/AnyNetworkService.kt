@@ -1,5 +1,6 @@
 package com.thx.commonlibrary.network
 
+import android.content.pm.ApplicationInfo
 import com.thx.anynetworkmodule.AnyConfig
 import com.thx.anynetworkmodule.AnyRequest
 import com.thx.anynetworkmodule.AnyRequestId
@@ -7,6 +8,7 @@ import com.thx.anynetworkmodule.AnyResponse
 import com.thx.anynetworkmodule.IAnyAsyncCallback
 import com.thx.anynetworkmodule.IAnyAsyncProgressCallback
 import com.thx.anynetworkmodule.IAnyServices
+import com.thx.commonlibrary.base.RouterFrameApplication
 import com.thx.commonlibrary.logic.LogicUse
 import com.thx.commonlibrary.network.BaseNetworkLogic.DELETE
 import com.thx.commonlibrary.network.BaseNetworkLogic.DELETE_BODY
@@ -30,6 +32,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 
+
 /**
  * @Description:
  * @Author: tanghongxiang（thx76222@gmail.com）
@@ -45,7 +48,8 @@ open class AnyNetworkService(config: AnyConfig?) : IAnyServices {
         val builder: OkHttpClient.Builder =
             OkHttpClient.Builder().connectTimeout(config?.timeOut ?: 30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
-        if (config?.DEBUG == true) {
+        val applicationInfo = RouterFrameApplication.getInstance().applicationInfo
+        if (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE !== 0) {
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
             builder.addInterceptor(logging)

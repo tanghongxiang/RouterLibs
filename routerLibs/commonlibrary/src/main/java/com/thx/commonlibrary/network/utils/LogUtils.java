@@ -8,7 +8,7 @@ public class LogUtils {
 
     }
 
-    public static boolean isEnable = false;//BuildConfig.DEBUG;
+    public static boolean isEnable = true;//BuildConfig.DEBUG;
     private static String TAG = "br";
     /*
      *自定义
@@ -85,12 +85,10 @@ public class LogUtils {
     }
 
     public static void exception(Throwable throwable) {
-        if (false) {
-            if (throwable != null) {
-                e(throwable.getMessage());
-            } else {
-                e("params is null");
-            }
+        if (throwable != null) {
+            e(throwable.getMessage());
+        } else {
+            e("params is null");
         }
     }
 }

@@ -7,7 +7,7 @@ package com.thx.anynetworkmodule;
  * @since 2021/10/11 1:36 下午
  */
 public class AnyConfig {
-    public boolean DEBUG = false;//BuildConfig.DEBUG;
+//    public boolean DEBUG = BuildConfig.DEBUG;
     public String baseUrl;
     public long timeOut;
     public boolean https;
