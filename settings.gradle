@@ -1,0 +1,31 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven{url = "https://jitpack.io"}
+        maven{url = "https://s01.oss.sonatype.org/content/groups/public"}
+        maven{url = "https://developer.huawei.com/repo/"}
+        maven{url = "https://artifact.bytedance.com/repository/AwemeOpenSDK"}
+        maven{url = "https://dl.bintray.com/thelasterstar/maven/"}
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven{url = "https://jitpack.io"}
+        maven{url = "https://s01.oss.sonatype.org/content/groups/public"}
+        maven{url = "https://developer.huawei.com/repo/"}
+        maven{url = "https://artifact.bytedance.com/repository/AwemeOpenSDK"}
+        maven{url = "https://dl.bintray.com/thelasterstar/maven/"}
+    }
+}
+
+rootProject.name = "RouterLibs"
+include ':app'
+include ':routerLibs:LogicProcessorModule'
+include ':routerLibs:LogicRouterModule'
+include ':routerLibs:commonlibrary'
+include ':routerLibs:AnyNetWorkModule'

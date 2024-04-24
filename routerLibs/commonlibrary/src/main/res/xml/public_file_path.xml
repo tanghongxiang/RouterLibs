@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <external-files-path
+        name="photos_directory"
+        path="photos_directory/" />
+    <external-cache-path
+        name="external-cache"
+        path="." />
+    <external-files-path
+        name="camera_has_sdcard"
+        path="" />
+    <files-path
+        name="camera_no_sdcard"
+        path="" />
+</resources>
