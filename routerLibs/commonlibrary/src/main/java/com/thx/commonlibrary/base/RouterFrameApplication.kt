@@ -89,9 +89,8 @@ open class RouterFrameApplication : Application(), LifecycleOwner {
         })
     }
 
-    override fun getLifecycle(): Lifecycle {
-        return mLifecycleRegistry!!
-    }
+    override val lifecycle: Lifecycle
+        get() = mLifecycleRegistry!!
 
 
     /* ======================================================= */
