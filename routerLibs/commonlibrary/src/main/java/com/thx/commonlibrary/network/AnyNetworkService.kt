@@ -63,7 +63,7 @@ open class AnyNetworkService(config: AnyConfig?) : IAnyServices {
         val okHttpClient = builder.build()
         okHttpClient.dispatcher().maxRequests = 64
         okHttpClient.dispatcher().maxRequestsPerHost = 10
-        val retrofit = Retrofit.Builder()//.baseUrl(config?.baseUrl ?: "")
+        val retrofit = Retrofit.Builder().baseUrl("http://funny.frame.com")
 //            .addConverterFactory(DecryptResponseConverterFactory.create())
             .client(okHttpClient).build()
         this.service = retrofit.create(RetrofitNetworkServiceApi::class.java)
