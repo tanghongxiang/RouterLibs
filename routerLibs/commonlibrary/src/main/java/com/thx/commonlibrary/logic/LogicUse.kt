@@ -10,23 +10,24 @@ import com.thx.logicroutermodule.LogicRouter
  */
 class LogicUse {
 
-    /** 获取网络请求公共Header---同步 */
-    val GET_OKHTTP_COMMON_HEADERS = "commonLibrary-网络请求配置-获取网络请求的公共header配置"
-
-    /** 获取网络请求公共参数---同步 */
-    val GET_OKHTTP_COMMON_PARAMS = "commonLibrary-网络请求配置-获取网络请求的公共参数"
-
-    /** 处理网络请求返回数据---同步 */
-    val PROCESS_HTTP_BACK_RESPONSE_CONTENT = "commonLibrary-网络请求配置-全局处理网络请求返回数据"
-
-    /** 网络请求-判断当前请求的token是否不可用---同步 */
-    val CHECK_REQUEST_TOKEN_USABLE_FOR_REQUEST =
-        "commonLibrary-网络请求-判断当前请求的token是否不可用"
-
-    /** 网络请求-获取---异步 */
-    val GET_NEW_REQUEST_TOKEN_FOR_NET_REQUEST = "commonLibrary-网络请求-获取新的网络请求token"
-
     companion object {
+
+        /** 获取网络请求公共Header---同步 */
+        const val GET_OKHTTP_COMMON_HEADERS = "commonLibrary-网络请求配置-获取网络请求的公共header配置"
+
+        /** 获取网络请求公共参数---同步 */
+        const val GET_OKHTTP_COMMON_PARAMS = "commonLibrary-网络请求配置-获取网络请求的公共参数"
+
+        /** 处理网络请求返回数据---同步 */
+        const val PROCESS_HTTP_BACK_RESPONSE_CONTENT = "commonLibrary-网络请求配置-全局处理网络请求返回数据"
+
+        /** 网络请求-判断当前请求的token是否不可用---同步 */
+        const val CHECK_REQUEST_TOKEN_USABLE_FOR_REQUEST =
+            "commonLibrary-网络请求-判断当前请求的token是否不可用"
+
+        /** 网络请求-获取---异步 */
+        const val GET_NEW_REQUEST_TOKEN_FOR_NET_REQUEST = "commonLibrary-网络请求-获取新的网络请求token"
+
         val mInstance: LogicUse by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             LogicUse()
         }
