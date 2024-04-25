@@ -86,7 +86,7 @@ open class AnyNetworkService(config: AnyConfig?) : IAnyServices {
     ): AnyRequestId? {
         var call: Call<*>? = null
         val request = requestt ?: return null
-        val commonParams = LogicUse.mInstance.getHttpPublicParams()
+        val commonParams = LogicUse.mInstance.getHttpPublicParams(request.paramMap)
         if (commonParams.isNotEmpty()) {
             commonParams.forEach {
                 request.paramMap[it.key] = it.value

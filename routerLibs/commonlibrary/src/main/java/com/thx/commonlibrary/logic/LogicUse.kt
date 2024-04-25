@@ -13,20 +13,23 @@ class LogicUse {
     companion object {
 
         /** 获取网络请求公共Header---同步 */
-        const val GET_OKHTTP_COMMON_HEADERS = "commonLibrary-网络请求配置-获取网络请求的公共header配置"
+        const val GET_OKHTTP_COMMON_HEADERS =
+            "commonLibrary-网络请求配置-获取网络请求的公共header配置"
 
         /** 获取网络请求公共参数---同步 */
         const val GET_OKHTTP_COMMON_PARAMS = "commonLibrary-网络请求配置-获取网络请求的公共参数"
 
         /** 处理网络请求返回数据---同步 */
-        const val PROCESS_HTTP_BACK_RESPONSE_CONTENT = "commonLibrary-网络请求配置-全局处理网络请求返回数据"
+        const val PROCESS_HTTP_BACK_RESPONSE_CONTENT =
+            "commonLibrary-网络请求配置-全局处理网络请求返回数据"
 
         /** 网络请求-判断当前请求的token是否不可用---同步 */
         const val CHECK_REQUEST_TOKEN_USABLE_FOR_REQUEST =
             "commonLibrary-网络请求-判断当前请求的token是否不可用"
 
         /** 网络请求-获取---异步 */
-        const val GET_NEW_REQUEST_TOKEN_FOR_NET_REQUEST = "commonLibrary-网络请求-获取新的网络请求token"
+        const val GET_NEW_REQUEST_TOKEN_FOR_NET_REQUEST =
+            "commonLibrary-网络请求-获取新的网络请求token"
 
         val mInstance: LogicUse by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             LogicUse()
@@ -57,8 +60,9 @@ class LogicUse {
     /**
      * 获取网络请求公共参数
      */
-    fun getHttpPublicParams(): MutableMap<String, String> {
-        val params = LogicRouter.syncExecute(GET_OKHTTP_COMMON_PARAMS).data ?: return mutableMapOf()
+    fun getHttpPublicParams(paramMap: MutableMap<String, String>): MutableMap<String, String> {
+        val params = LogicRouter.syncExecute(GET_OKHTTP_COMMON_PARAMS, paramMap).data
+            ?: return mutableMapOf()
         if (params !is MutableMap<*, *>) return mutableMapOf()
         return try {
             params as MutableMap<String, String>
@@ -86,9 +90,19 @@ class LogicUse {
     /**
      * 处理接口返回数据
      */
-    fun processHttpBackResponseContent(originalData: String): String {
-        return LogicRouter.syncExecute(PROCESS_HTTP_BACK_RESPONSE_CONTENT).data?.toString()
-            ?: originalData
+    fun processHttpBackResponseContent(
+        requestHost: String,
+        requestUrl: String,
+        originalData: String
+    ): String {
+        return LogicRouter.syncExecute(
+            PROCESS_HTTP_BACK_RESPONSE_CONTENT,
+            mapOf(
+                "host" to requestHost,
+                "url" to requestUrl,
+                "content" to originalData
+            )
+        ).data?.toString() ?: originalData
     }
 
     /**
@@ -102,10 +116,11 @@ class LogicUse {
     /**
      * 获取新的网络请求的token
      * 参数和业务处理让外层处理
+     * @return first是否请求成功，second新的token
      */
-    fun getNewHttpRequestToken(callBack: (Boolean) -> Unit) {
+    fun getNewHttpRequestToken(callBack: (Boolean,String) -> Unit) {
         LogicRouter.asynExecute(GET_NEW_REQUEST_TOKEN_FOR_NET_REQUEST) { result ->
-            callBack.invoke(result.isSuccess)
+            callBack.invoke(result.isSuccess,result.data?.toString()?:"")
         }
     }
 

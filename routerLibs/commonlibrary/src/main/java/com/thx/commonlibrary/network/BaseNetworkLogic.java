@@ -26,6 +26,7 @@ import java.util.concurrent.ExecutorService;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
+import kotlin.jvm.functions.Function2;
 
 /**
  * @Description:
@@ -82,9 +83,13 @@ public abstract class BaseNetworkLogic extends BaseAsynLogic {
         // 检查请求的token是否可用
         if (LogicUse.Companion.getMInstance().getHttpRequestTokenUsable()) {
             // token过期了,去获取新的token
-            LogicUse.Companion.getMInstance().getNewHttpRequestToken(new Function1<Boolean, Unit>() {
+            LogicUse.Companion.getMInstance().getNewHttpRequestToken(new Function2<Boolean, String, Unit>() {
                 @Override
-                public Unit invoke(Boolean res) {
+                public Unit invoke(Boolean success, String newToken) {
+                    if(success){
+                        // 获取新签名成功，那么就替换当前签名字段
+                        anyRequest.getParamMap().put("access_token",newToken);
+                    }
                     // 成功或者失败都继续请求把，如果token获取失败即接口有问题或者网络异常
                     anyRequestId = AnyNetworkManager.getInstance().getGlobalAnyNetWork().asyncRequest(anyRequest, callback);
                     return null;

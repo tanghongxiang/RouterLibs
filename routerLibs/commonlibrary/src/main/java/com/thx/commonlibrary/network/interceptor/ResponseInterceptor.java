@@ -45,7 +45,7 @@ public class ResponseInterceptor implements Interceptor {
             responseStr = cloneResponseBody.string();
         }
         // 处理返回数据
-        responseStr = LogicUse.Companion.getMInstance().processHttpBackResponseContent(responseStr);
+        responseStr = LogicUse.Companion.getMInstance().processHttpBackResponseContent(request.url().host(),request.url().encodedPath(),responseStr);
         ResponseBody newResponseBody = ResponseBody.create(cloneResponseBody.contentType(), responseStr);
         return response.newBuilder().body(newResponseBody).build();
 
