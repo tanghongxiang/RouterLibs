@@ -150,24 +150,24 @@ open class RouterFrameApplication : Application(), LifecycleOwner {
     /* ======================================================= */
 
     /** Activity栈回调-onActivityPaused-根据需求重写，增加处理逻辑 */
-    fun onActivityPaused(activity: Activity) {}
+    open fun onActivityPaused(activity: Activity) {}
 
     /** Activity栈回调-onActivityStarted-根据需求重写，增加处理逻辑 */
-    fun onActivityStarted(activity: Activity) {}
+    open fun onActivityStarted(activity: Activity) {}
 
     /** Activity栈回调-onActivityDestroyed-根据需求重写，增加处理逻辑 */
-    fun onActivityDestroyed(activity: Activity) {}
+    open fun onActivityDestroyed(activity: Activity) {}
 
     /** Activity栈回调-onActivitySaveInstanceState-根据需求重写，增加处理逻辑 */
-    fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+    open fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
 
     /** Activity栈回调-onActivityStopped-根据需求重写，增加处理逻辑 */
-    fun onActivityStopped(activity: Activity) {}
+    open fun onActivityStopped(activity: Activity) {}
 
     /** Activity栈回调-onActivityCreated-根据需求重写，增加处理逻辑 */
-    fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
+    open fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
 
     /** Activity栈回调-onActivityResumed-根据需求重写，增加处理逻辑 */
-    fun onActivityResumed(activity: Activity) {}
+    open fun onActivityResumed(activity: Activity) {}
 
 }
