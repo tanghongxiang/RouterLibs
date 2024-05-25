@@ -31,6 +31,10 @@ class LogicUse {
         const val GET_NEW_REQUEST_TOKEN_FOR_NET_REQUEST =
             "commonLibrary-网络请求-获取新的网络请求token"
 
+        /** 网络请求-判断当前网络请求logic是否可以被执行---同步 */
+        const val CHECK_NET_WORK_REQUEST_CAN_RUN =
+            "commonLibrary-网络请求-判断当前网络请求logic是否可以被执行"
+
         val mInstance: LogicUse by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             LogicUse()
         }
@@ -118,10 +122,17 @@ class LogicUse {
      * 参数和业务处理让外层处理
      * @return first是否请求成功，second新的token
      */
-    fun getNewHttpRequestToken(callBack: (Boolean,String) -> Unit) {
+    fun getNewHttpRequestToken(callBack: (Boolean, String) -> Unit) {
         LogicRouter.asynExecute(GET_NEW_REQUEST_TOKEN_FOR_NET_REQUEST) { result ->
-            callBack.invoke(result.isSuccess,result.data?.toString()?:"")
+            callBack.invoke(result.isSuccess, result.data?.toString() ?: "")
         }
+    }
+
+    /**
+     * 统一判断当前网络请求是否可以被执行
+     */
+    fun getNetworkRequestCanRun(): Boolean {
+        return false != LogicRouter.syncExecute(CHECK_NET_WORK_REQUEST_CAN_RUN).data
     }
 
 }

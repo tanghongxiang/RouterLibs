@@ -15,6 +15,7 @@ import com.thx.commonlibrary.logic.LogicUse;
 import com.thx.commonlibrary.network.utils.NetworkExecutor;
 import com.thx.logicroutermodule.BaseAsynLogic;
 import com.thx.logicroutermodule.ILogicHandler;
+import com.thx.logicroutermodule.LogicRouter;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -51,7 +52,7 @@ public abstract class BaseNetworkLogic extends BaseAsynLogic {
 
     @Override
     public boolean shouldRun() {
-        return super.shouldRun() && NetUtils.isNetConnected(RouterFrameApplication.Companion.getInstance());
+        return super.shouldRun() && LogicUse.Companion.getMInstance().getNetworkRequestCanRun();//&& NetUtils.isNetConnected(RouterFrameApplication.Companion.getInstance());
     }
 
     @Override
