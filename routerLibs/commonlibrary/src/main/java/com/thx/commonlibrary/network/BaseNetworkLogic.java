@@ -90,6 +90,7 @@ public abstract class BaseNetworkLogic extends BaseAsynLogic {
                     if(success){
                         // 获取新签名成功，那么就替换当前签名字段
                         anyRequest.getParamMap().put("access_token",newToken);
+                        anyRequest.getHeadersMap().put("Access-Token",newToken);
                     }
                     // 成功或者失败都继续请求把，如果token获取失败即接口有问题或者网络异常
                     anyRequestId = AnyNetworkManager.getInstance().getGlobalAnyNetWork().asyncRequest(anyRequest, callback);

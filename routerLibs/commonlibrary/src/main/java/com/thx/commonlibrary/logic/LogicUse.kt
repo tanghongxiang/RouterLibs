@@ -35,6 +35,8 @@ class LogicUse {
         const val CHECK_NET_WORK_REQUEST_CAN_RUN =
             "commonLibrary-网络请求-判断当前网络请求logic是否可以被执行"
 
+
+
         val mInstance: LogicUse by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             LogicUse()
         }
