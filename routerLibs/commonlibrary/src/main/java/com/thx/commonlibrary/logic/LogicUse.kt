@@ -35,6 +35,10 @@ class LogicUse {
         const val CHECK_NET_WORK_REQUEST_CAN_RUN =
             "commonLibrary-网络请求-判断当前网络请求logic是否可以被执行"
 
+        /** 网络请求-token校验接口白名单---同步 */
+        const val GET_CHECK_TOKEN_WHITE_LIST =
+            "commonLibrary-网络请求-token校验接口白名单---同步"
+
 
 
         val mInstance: LogicUse by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
@@ -135,6 +139,18 @@ class LogicUse {
      */
     fun getNetworkRequestCanRun(): Boolean {
         return false != LogicRouter.syncExecute(CHECK_NET_WORK_REQUEST_CAN_RUN).data
+    }
+
+    /**
+     * 网络请求-token校验接口白名单
+     */
+    fun getTokenWhiteList(): ArrayList<String> {
+        val tokenWhiteList =  try {
+            LogicRouter.syncExecute(GET_CHECK_TOKEN_WHITE_LIST).data as ArrayList<String>
+        }catch (e:Exception){
+            arrayListOf()
+        }
+        return tokenWhiteList
     }
 
 }
