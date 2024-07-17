@@ -39,6 +39,9 @@ class LogicUse {
         const val GET_CHECK_TOKEN_WHITE_LIST =
             "commonLibrary-网络请求-token校验接口白名单---同步"
 
+        /** 网络请求-处理请求报错内容---同步 */
+        const val PROCESS_REQUEST_REPORT_ERROR_CONTENT =
+            "commonLibrary-网络请求-处理请求报错内容---同步"
 
 
         val mInstance: LogicUse by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
@@ -145,12 +148,19 @@ class LogicUse {
      * 网络请求-token校验接口白名单
      */
     fun getTokenWhiteList(): ArrayList<String> {
-        val tokenWhiteList =  try {
+        val tokenWhiteList = try {
             LogicRouter.syncExecute(GET_CHECK_TOKEN_WHITE_LIST).data as ArrayList<String>
-        }catch (e:Exception){
+        } catch (e: Exception) {
             arrayListOf()
         }
         return tokenWhiteList
+    }
+
+    /**
+     * 网络请求-处理请求报错内容---同步
+     */
+    fun processHttpErrMsg(throwable: Throwable): String? {
+        return LogicRouter.syncExecute(PROCESS_REQUEST_REPORT_ERROR_CONTENT).data?.toString()
     }
 
 }

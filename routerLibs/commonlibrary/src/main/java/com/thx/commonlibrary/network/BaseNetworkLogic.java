@@ -185,22 +185,26 @@ public abstract class BaseNetworkLogic extends BaseAsynLogic {
      * @param throwable
      */
     public void onFailure(Throwable throwable) {
-        String errorMsg = throwable.getMessage();
-        if (TextUtils.isEmpty(errorMsg)) {
-            markResult(ILogicHandler.CODE_FAILURE, "网络不稳定");
-            return;
+//        String errorMsg = throwable.getMessage();
+//        if (TextUtils.isEmpty(errorMsg)) {
+//            markResult(ILogicHandler.CODE_FAILURE, "网络不稳定");
+//            return;
+//        }
+//        errorMsg = errorMsg.toLowerCase(Locale.CHINESE);
+//        if (errorMsg.contains("unable to resolve host")) {
+//            errorMsg = "域名解析失败";
+//        } else if (errorMsg.contains("timed out") || errorMsg.contains("timeout")) {
+//            errorMsg = "网络连接超时,请尝刷新页面";
+//        } else if (errorMsg.contains("refused")) {
+//            errorMsg = "服务器拒绝连接";
+//        } else {
+//            errorMsg = "网络不稳定";
+//        }
+        String res = LogicUse.Companion.getMInstance().processHttpErrMsg(throwable);
+        if(res == null){
+            res = throwable.getMessage();
         }
-        errorMsg = errorMsg.toLowerCase(Locale.CHINESE);
-        if (errorMsg.contains("unable to resolve host")) {
-            errorMsg = "域名解析失败";
-        } else if (errorMsg.contains("timed out") || errorMsg.contains("timeout")) {
-            errorMsg = "网络连接超时,请尝刷新页面";
-        } else if (errorMsg.contains("refused")) {
-            errorMsg = "服务器拒绝连接";
-        } else {
-            errorMsg = "网络不稳定";
-        }
-        markResult(ILogicHandler.CODE_FAILURE, errorMsg);
+        markResult(ILogicHandler.CODE_FAILURE, res);
     }
 
     protected boolean isPostJson() {
