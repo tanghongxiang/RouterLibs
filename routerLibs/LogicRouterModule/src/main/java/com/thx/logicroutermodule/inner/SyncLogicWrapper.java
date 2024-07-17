@@ -8,6 +8,7 @@ import com.thx.logicroutermodule.BaseSyncLogic;
 import com.thx.logicroutermodule.ILogicHandler;
 import com.thx.logicroutermodule.LogicResult;
 import com.thx.logicroutermodule.LogicRouter;
+import com.thx.logicroutermodule.logic.LogicUseKt;
 
 import java.util.Map;
 
@@ -54,7 +55,8 @@ public class SyncLogicWrapper extends BaseAsynLogic {
         }
 
         if (!shouldRun()) {
-            markResult(ILogicHandler.CODE_PARAMS_INVALID, null);
+            String res = LogicUseKt.processUnPassShouldRunErrMsg(false);
+            markResult(ILogicHandler.CODE_PARAMS_INVALID, res);
             return;
         }
 
@@ -79,7 +81,8 @@ public class SyncLogicWrapper extends BaseAsynLogic {
         }
 
         if (!shouldRun()) {
-            markResult(ILogicHandler.CODE_PARAMS_INVALID, null);
+            String res = LogicUseKt.processUnPassShouldRunErrMsg(false);
+            markResult(ILogicHandler.CODE_PARAMS_INVALID, res);
             return;
         }
 

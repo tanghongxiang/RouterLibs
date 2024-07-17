@@ -11,6 +11,7 @@ import com.thx.logicroutermodule.ILogicHandler;
 import com.thx.logicroutermodule.IRecyclable;
 import com.thx.logicroutermodule.LogicResult;
 import com.thx.logicroutermodule.LogicRouter;
+import com.thx.logicroutermodule.logic.LogicUseKt;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -126,7 +127,8 @@ public class LogicRouterImpl implements ILogicRouter {
 
         // 检查是否可以运行
         if (!logic.shouldRun()) {
-            return new LogicResult(ILogicHandler.CODE_PARAMS_INVALID, null, null);
+            String res = LogicUseKt.processUnPassShouldRunErrMsg(false);
+            return new LogicResult(ILogicHandler.CODE_PARAMS_INVALID, res, null);
         }
 
         // 运行
