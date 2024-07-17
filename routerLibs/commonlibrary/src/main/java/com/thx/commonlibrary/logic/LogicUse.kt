@@ -160,7 +160,7 @@ class LogicUse {
      * 网络请求-处理请求报错内容---同步
      */
     fun processHttpErrMsg(throwable: Throwable): String? {
-        return LogicRouter.syncExecute(PROCESS_REQUEST_REPORT_ERROR_CONTENT).data?.toString()
+        return LogicRouter.syncExecute(PROCESS_REQUEST_REPORT_ERROR_CONTENT, mapOf("errInfo" to throwable)).data?.toString()
     }
 
 }
