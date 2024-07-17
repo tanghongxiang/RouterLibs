@@ -2,7 +2,7 @@ package com.thx.logicroutermodule;
 
 import androidx.annotation.Nullable;
 
-import com.thx.logicroutermodule.logic.LogicUseKt;
+import com.thx.logicroutermodule.logic.LogicUse;
 
 import java.util.Map;
 
@@ -51,7 +51,7 @@ public abstract class BaseAsynLogic extends AbstractLogic {
 
         // 检查参数
         if (!shouldRun()) {
-            String res = LogicUseKt.processUnPassShouldRunErrMsg(true);
+            String res = LogicUse.processUnPassShouldRunErrMsg(true);
             LogicRouter.runOnConcurrent(() -> markResult(ILogicHandler.CODE_PARAMS_INVALID, res));
             return;
         }
@@ -78,7 +78,7 @@ public abstract class BaseAsynLogic extends AbstractLogic {
 
         // 检查参数
         if (!shouldRun()) {
-            String res = LogicUseKt.processUnPassShouldRunErrMsg(true);
+            String res = LogicUse.processUnPassShouldRunErrMsg(true);
             LogicRouter.runOnConcurrent(() -> markResult(ILogicHandler.CODE_PARAMS_INVALID, res));
             return;
         }
