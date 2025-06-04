@@ -43,6 +43,10 @@ class LogicUse {
         const val PROCESS_REQUEST_REPORT_ERROR_CONTENT =
             "commonLibrary-网络请求-处理请求报错内容---同步"
 
+        /** 网络请求-获取token后更新请求中需要更新的headers 和 params---同步 */
+        const val GET_NEED_UPDATE_HEADERS_AND_PARAMS =
+            "commonLibrary-网络请求-获取token后更新请求中需要更新的headers 和 params---同步"
+
 
         val mInstance: LogicUse by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             LogicUse()
@@ -160,7 +164,21 @@ class LogicUse {
      * 网络请求-处理请求报错内容---同步
      */
     fun processHttpErrMsg(throwable: Throwable): String? {
-        return LogicRouter.syncExecute(PROCESS_REQUEST_REPORT_ERROR_CONTENT, mapOf("errInfo" to throwable)).data?.toString()
+        return LogicRouter.syncExecute(
+            PROCESS_REQUEST_REPORT_ERROR_CONTENT,
+            mapOf("errInfo" to throwable)
+        ).data?.toString()
+    }
+
+    /**
+     * 网络请求-获取token后更新请求中需要更新的headers 和 params---同步
+     */
+    fun updateNewHeadersAndParams(): Map<String, String> {
+        return try {
+            LogicRouter.syncExecute(GET_NEED_UPDATE_HEADERS_AND_PARAMS).data as Map<String, String>
+        } catch (e: Exception) {
+            mapOf()
+        }
     }
 
 }

@@ -1,6 +1,5 @@
 package com.thx.commonlibrary.network;
 
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 
@@ -10,24 +9,19 @@ import com.alibaba.fastjson.JSON;
 import com.thx.anynetworkmodule.AnyNetworkManager;
 import com.thx.anynetworkmodule.AnyRequest;
 import com.thx.anynetworkmodule.AnyRequestId;
-import com.thx.anynetworkmodule.NetUtils;
-import com.thx.commonlibrary.base.RouterFrameApplication;
 import com.thx.commonlibrary.logic.LogicUse;
 import com.thx.commonlibrary.network.utils.NetworkExecutor;
 import com.thx.logicroutermodule.BaseAsynLogic;
 import com.thx.logicroutermodule.ILogicHandler;
-import com.thx.logicroutermodule.LogicRouter;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
 
 /**
@@ -68,6 +62,10 @@ public abstract class BaseNetworkLogic extends BaseAsynLogic {
             anyRequest.addHeaders(bodyParams.second);
         } else if (params != null) {
             anyRequest.addParams(params);
+            Map<String, String> extraHeaderParams = extraHeaderParams();
+            if (extraHeaderParams != null && !extraHeaderParams.isEmpty()) {
+                anyRequest.addHeaders(extraHeaderParams);
+            }
         }
         AnyAsyncCallback callback = new AnyAsyncCallback<String>() {
 
@@ -83,17 +81,28 @@ public abstract class BaseNetworkLogic extends BaseAsynLogic {
         };
 
         // 检查请求的token是否可用
-        if(!LogicUse.Companion.getMInstance().getTokenWhiteList().contains(url())){
+        if (!LogicUse.Companion.getMInstance().getTokenWhiteList().contains(url())) {
             // 走token校验
             if (LogicUse.Companion.getMInstance().getHttpRequestTokenUsable()) {
                 // token过期了,去获取新的token
                 LogicUse.Companion.getMInstance().getNewHttpRequestToken(new Function2<Boolean, String, Unit>() {
                     @Override
                     public Unit invoke(Boolean success, String newToken) {
-                        if(success){
+                        if (success) {
                             // 获取新签名成功，那么就替换当前签名字段
-                            anyRequest.getParamMap().put("access_token",newToken);
-                            anyRequest.getHeadersMap().put("Access-Token",newToken);
+                            Map<String, String> newParams = LogicUse.Companion.getMInstance().updateNewHeadersAndParams();
+                            if(!newParams.isEmpty()){
+                                for (Map.Entry<String, String> entry : newParams.entrySet()) {
+                                    if(anyRequest.getHeadersMap().containsKey(entry.getKey())){
+                                        anyRequest.getHeadersMap().put(entry.getKey(), entry.getValue());
+                                    }
+                                    if(anyRequest.getParamMap().containsKey(entry.getKey())){
+                                        anyRequest.getParamMap().put(entry.getKey(), entry.getValue());
+                                    }
+                                }
+                            }
+//                            anyRequest.getParamMap().put("access_token", newToken);
+//                            anyRequest.getHeadersMap().put("Access-Token", newToken);
                         }
                         // 成功或者失败都继续请求把，如果token获取失败即接口有问题或者网络异常
                         anyRequestId = AnyNetworkManager.getInstance().getGlobalAnyNetWork().asyncRequest(anyRequest, callback);
@@ -104,9 +113,9 @@ public abstract class BaseNetworkLogic extends BaseAsynLogic {
                 // token未过期，继续请求
                 anyRequestId = AnyNetworkManager.getInstance().getGlobalAnyNetWork().asyncRequest(anyRequest, callback);
             }
-        }else{
+        } else {
             // 不走token校验
-            Log.e("NetworkLogic","不走token校验：" + url());
+            Log.e("NetworkLogic", "不走token校验：" + url());
             anyRequestId = AnyNetworkManager.getInstance().getGlobalAnyNetWork().asyncRequest(anyRequest, callback);
         }
     }
@@ -173,6 +182,13 @@ public abstract class BaseNetworkLogic extends BaseAsynLogic {
     }
 
     /**
+     * 单个接口附加header
+     */
+    public Map<String, String> extraHeaderParams() {
+        return new HashMap();
+    }
+
+    /**
      * 成功的回调
      *
      * @param obj
@@ -201,7 +217,7 @@ public abstract class BaseNetworkLogic extends BaseAsynLogic {
 //            errorMsg = "网络不稳定";
 //        }
         String res = LogicUse.Companion.getMInstance().processHttpErrMsg(throwable);
-        if(res == null){
+        if (res == null) {
             res = throwable.getMessage();
         }
         markResult(ILogicHandler.CODE_FAILURE, res);
